@@ -4,9 +4,9 @@ class letterZ  {
   float h;
 
   letterZ(float x, float y) { 
-    w = 10;
-    h = 10;  
-    makeBody(new Vec2(x, y + h/2), w,h);
+    w = 15;
+    h = 15;  
+    makeBody(new Vec2(x, y + h/2), w+7,h+7);
   }
 
   void display() {
@@ -14,15 +14,20 @@ class letterZ  {
     Vec2 pos = box2d.getBodyPixelCoord(body);
     // Get its angle of rotation
     float a = body.getAngle();
-    noStroke();
-    fill(255); 
-   
+    
     pushMatrix();
+    fill(255); 
+    noStroke();
+    //rect(0,0,w+5,h+5); 
+    strokeWeight(2);
+    stroke(0);
+    
     translate(pos.x, pos.y); 
     rotate(-a);  
     //image(letter, 0, 0);
     rect(0,0,w,h);  
-    popMatrix();  
+    popMatrix(); 
+    
   }
   
   void killBody() {

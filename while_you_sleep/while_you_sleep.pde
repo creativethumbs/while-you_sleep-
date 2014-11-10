@@ -69,7 +69,7 @@ int dropped;
 boolean test = false; 
 
 void setup() {
-  size(600, 800); 
+  size(800, 600); 
   letter = loadImage("Z.png");
   prevSecond = millis(); 
   //noodle = loadFont("BigNoodleTitling.vlw");
@@ -88,7 +88,7 @@ void setup() {
   // listens for OSC messages on port 8000
   oscP5 = new OscP5(this,8000); 
   // broadcasts OSC messages on port 9000
-  myBroadcastLocation = new NetAddress("192.168.1.117",9000);
+  myBroadcastLocation = new NetAddress("128.237.209.107",9000);
   
   w = height+30; 
   dx = (TWO_PI / period) * xspacing;
@@ -101,7 +101,7 @@ void setup() {
 
 void draw() {
   box2d.step(); 
-  background(0); 
+  background(255); 
   
   topbound.display(); 
   leftbound.display();
@@ -138,7 +138,7 @@ void draw() {
     waittime -= starttime;
   }
   
-  //if they have not moved for 5 minutes...
+  //if they have not moved for 2 minutes...
   if (millis()/(1000*60) - stillness/60 > 1) { 
     //person is sleeping!
     sleeping = true;  
@@ -156,11 +156,13 @@ void draw() {
   
   else if (mpm >= 30) {
     sleeping = false;  
+    saveFrame("boxes-######.png");
     for (letterZ z: Zs) {
       //int grav = (int)random(-15,-5); 
       box2d.setGravity(0, -10);
       z.drop(); 
     }
+    
   }  
   
   for (letterZ z: Zs) {
@@ -182,6 +184,7 @@ void oscEvent(OscMessage theOscMessage) {
   xrot = (theOscMessage.get(0).floatValue()*90);
   zrot = (theOscMessage.get(1).floatValue()*90)*-1;
   orientation = theOscMessage.get(2).floatValue();
+  //println("xrot is"+xrot);
 }
 
 void delay(int delay)
@@ -201,6 +204,7 @@ void mousePressed() {
 
 void keyPressed() {
   sleeping = false; 
+  saveFrame("boxes-######.png");
   /*
   box2d.setGravity(0, -10);
   letterZ n = Zs.get(zIndex);
